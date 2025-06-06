@@ -76,7 +76,7 @@ def delete_transaction(transaction_id):
     # Redirect to the transactions list page after deleting the transaction
     return redirect(url_for('get_transactions'))          
 
-#a new feature to the application that allows users to search for transactions within a specified amount range
+#a new feature that allows users to search for transactions within a specified amount range
 @app.route('/search', methods=['GET','POST'])
 def search_transactions():
     if request.method == 'POST':
@@ -88,7 +88,14 @@ def search_transactions():
     #If the request method is GET, render a new template called search.html
     return render_template('search.html')
 
-    
+#a new feature that calculates and displays the total balance of all transactions
+@app.route('/balance')
+def total_balance():
+    su=0
+    for transaction in transactions:
+        su+=transaction['amount']
+    return render_template('transactions.html', transactions=transactions, total_balance=su)
+
 # Run the Flask app
 if __name__ == "__main__":
     app.run(debug=True)    
