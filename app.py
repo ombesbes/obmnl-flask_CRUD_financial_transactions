@@ -24,8 +24,8 @@ def add_transaction():
     if request.method == 'POST':
         # Create a new transaction object using form field values
         transaction = {
-              'id': len(transactions)+1
-              'date': request.form['date']
+              'id': len(transactions)+1,
+              'date': request.form['date'],
               'amount': float(request.form['amount'])
              }
         # append the new transaction to the transactions list
@@ -45,8 +45,8 @@ def edit_transaction(transaction_id):
                 ind=i
                 break
         transaction = {
-              'id': transaction_id
-              'date': request.form['date']
+              'id': transaction_id,
+              'date': request.form['date'],
               'amount': float(request.form['amount'])
              }
         # modify the data relevant to the transaction_id
@@ -74,9 +74,9 @@ def delete_transaction(transaction_id):
             break  # Exit the loop once the transaction is found and removed
     
     # Redirect to the transactions list page after deleting the transaction
-    return redirect('url_for('get_transactions'))
-    
-        
+    return redirect(url_for('get_transactions'))          
+
 
 # Run the Flask app
-    
+if __name__ == "__main__":
+    app.run(debug=True)    
