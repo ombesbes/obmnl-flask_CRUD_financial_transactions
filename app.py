@@ -23,19 +23,45 @@ def add_transaction():
     # Check if the request method is POST (form submission)
     if request.method == 'POST':
         # Create a new transaction object using form field values
-        transation = {
+        transaction = {
               'id': len(transactions)+1
               'date': request.form['date']
               'amount': float(request.form['amount'])
              }
         # append the new transaction to the transactions list
-        transactions.append(new_transaction)
+        transactions.append(transaction)
         # Redirect to the transactions list page after adding the new transaction
         return redirect(url_for('get_transactions'))
     # If the request method is GET, render the form template to display the add transaction form
     return render_template('form.html')    
 
 # Update operation
+@app.route('/edit/<int:transaction_id>', methods=['GET','POST'])
+def edit_transaction():
+    if request.method == 'POST':
+        #find the transaction with the ID that matches transaction_id
+        for i, tran in enumerate(transactions):
+            if transactions[i]['id'] == transaction_id:
+                ind=i
+                break
+        transaction = {
+              'id': transaction_id
+              'date': request.form['date']
+              'amount': float(request.form['amount'])
+             }
+        # modify the data relevant to the transaction_id
+        transactions[ind]   =transaction
+        # Redirect to the transactions list page after adding the new transaction
+        return redirect(url_for('get_transactions'))
+    
+    # If the request method is GET, find the transaction with the matching ID and render the edit form
+    for transaction in transactions:
+        if transaction['id'] == transaction_id:
+            # Render the edit form template and pass the transaction to be edited
+            return render_template("edit.html", transaction=transaction)
+    # If the transaction with the specified ID is not found, handle this case (optional)
+    return {"message": "Transaction not found"}, 404
+     
 
 # Delete operation
 
